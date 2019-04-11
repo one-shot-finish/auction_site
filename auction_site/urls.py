@@ -17,11 +17,14 @@ Including another URLconf
 from django.urls import include, path
 # from django.conf.urls import include, url
 from django.contrib import admin
+from bids.views import BidView
+from items.views import ItemView
+from users.views import UserView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('bids/', BidView.as_view()),
+    path('items/', ItemView.as_view()),
+    path('users/', UserView.as_view()),
 
-    # url(r'^api/', include('conduit.apps.bids.urls', namespace='bids')),
-    # url(r'^api/', include('conduit.apps.items.urls', namespace='items')),
-    # url(r'^api/', include('conduit.apps.users.urls', namespace='users')),
 ]
