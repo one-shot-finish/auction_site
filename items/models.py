@@ -7,16 +7,25 @@ class Item(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=200)
     description = models.TextField()
-    start_time = models.DateField()
-    end_time = models.DateField()
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
     base_amount = models.FloatField()
-    winner = models.ForeignKey(User, on_delete=models.CASCADE)
+    winner = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.name
 
-    def winner_details(self):
-        return self.winner
+    def winner_name(self):
+        if self.winner is not None:
+            return self.winner.full_name
+        else:
+            return ''
+
+    def winner_email(self):
+        if self.winner is not None:
+            return self.winner.email
+        else:
+            return ''
 
     class Meta:
         ordering = ['-created_at', '-updated_at']

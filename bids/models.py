@@ -12,5 +12,11 @@ class Bid(models.Model):
     def __str__(self):
         return str(self.amount)
 
+    def user_detail(self):
+        return str(self.user)
+
+    def item_detail(self):
+        return str(self.item)
+
     class Meta:
         ordering = ['-created_at', '-updated_at']

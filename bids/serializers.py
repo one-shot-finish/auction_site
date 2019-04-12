@@ -5,7 +5,7 @@ class BidSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bid
         fields = (
-            'user.full_name',
-            'item',
+            'user_detail',
+            'item_detail',
             'amount',
         )

@@ -10,5 +10,6 @@ class ItemSerializer(serializers.ModelSerializer):
             'start_time',
             'end_time',
             'base_amount',
-            'winner',
+            'winner_name',
+            'winner_email',
         )
