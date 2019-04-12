@@ -2,7 +2,8 @@ from datetime import datetime
 from items.models import Item
 from bids.models import Bid
 from users.models import User
-import smtplib, config
+import smtplib
+import auction_site.config as config
 
 class WinnerTask:
     def run(self):
