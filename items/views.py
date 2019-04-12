@@ -6,9 +6,8 @@ from .models import Item
 from bids.models import Bid
 from users.models import User
 from django.db.models import Q
+from auction_site.util import Util
 import datetime
-from dateutil.parser import parse
-import pytz
 # Create your views here.
 
 class ItemView(APIView):
@@ -39,7 +38,7 @@ class ItemDetail(APIView):
         for item in items:
             amount = item_vals[item['id']][0]
             user_id = item_vals[item['id']][1]
-            if item['end_time'] < self.fetch_date(now):
+            if item['end_time'] < Util.fetch_date(now):
                 item['winner_name'] = User.objects.get(pk=item['winner_id']).full_name
                 item['status'] = 'Completed'
                 item['sold_amount'] = amount
@@ -50,7 +49,3 @@ class ItemDetail(APIView):
 
         items = [{k: v for k, v in d.items() if k not in ['id', 'created_at', 'updated_at', 'winner_id']} for d in items]
         return Response(items)
-
-    def fetch_date(self, moment):
-        utc = pytz.UTC
-        return utc.localize(moment).replace(tzinfo=utc)
