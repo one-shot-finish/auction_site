@@ -27,17 +27,18 @@ class ItemView(APIView):
 
 class ItemDetail(APIView):
     def get(self, request):
-        items = Item.objects.filter(bid__isnull=False)
         now = datetime.datetime.now()
 
         bids = list(Bid.objects.order_by('amount').values('amount', 'item_id', 'user_id'))
         item_vals = {}
         for bid in bids:
             item_vals[bid['item_id']] = (bid['amount'], bid['user_id'])
-        items = list(items.filter(id__in=item_vals.keys()).values())
+
+        items = list(Item.objects.filter(id__in=list(item_vals.keys())).values())
         for item in items:
             amount = item_vals[item['id']][0]
             user_id = item_vals[item['id']][1]
+
             if item['end_time'] < Util.fetch_date(now):
                 item['winner_name'] = User.objects.get(pk=item['winner_id']).full_name
                 item['status'] = 'Completed'
@@ -46,6 +47,5 @@ class ItemDetail(APIView):
                 item['user_name'] = User.objects.get(pk=user_id).full_name
                 item['status'] = 'Live'
                 item['highest_bid_amount'] = amount
-
         items = [{k: v for k, v in d.items() if k not in ['id', 'created_at', 'updated_at', 'winner_id']} for d in items]
         return Response(items)

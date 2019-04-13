@@ -10,14 +10,18 @@ class WinnerTask:
         start = (datetime.now() - timedelta(hours = 1)).replace(microsecond=0,second=0,minute=0)
         end = datetime.now().replace(microsecond=0,second=0,minute=0, hour=datetime.now().hour+1)
         completed_items = list(Item.objects.filter(end_time__lte=end, end_time__gt=start).values('id'))
-        completed_item_ids = map(lambda x: x['id'], completed_items)
+        completed_item_ids = list(map(lambda x: x['id'], completed_items))
         bids = list(Bid.objects.filter(item_id__in=completed_item_ids).order_by('amount').values('amount', 'item_id', 'user_id', 'id'))
         item_vals = {}
         for bid in bids:
             item_vals[bid['item_id']] = (bid['amount'], bid['user_id'])
-            b = Bid.objects.get(pk=bid['id'])
-            b.winner_id = bid['user_id']
-            b.save()
+
+        items = list(Item.objects.filter(id__in=list(item_vals.keys())).values())
+
+        for item_i in items:
+            item = Item.objects.get(pk=item_i['id'])
+            item.winner_id = item_vals[item_i['id']][1]
+            item.save()
 
         self.send_emails(item_vals)
 
