@@ -12,4 +12,5 @@ class ItemSerializer(serializers.ModelSerializer):
             'base_amount',
             'winner_name',
             'winner_email',
+            'image_url',
         )

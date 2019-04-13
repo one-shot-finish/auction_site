@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'bids',
     'items',
     'users',
+    'django_cron',
 ]
 
 MIDDLEWARE = [
@@ -50,6 +51,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+CRON_CLASSES = [
+    'auction_site.winner_cron_job.WinnerCronJob'
 ]
 
 ROOT_URLCONF = 'auction_site.urls'

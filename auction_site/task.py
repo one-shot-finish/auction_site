@@ -6,9 +6,9 @@ import auction_site.config as config
 from datetime import datetime, timedelta
 
 class WinnerTask:
-    def run(self):
+    def do(self):
         start = (datetime.now() - timedelta(hours = 1)).replace(microsecond=0,second=0,minute=0)
-        end = datetime.now().replace(microsecond=0,second=0,minute=0, hour=datetime.now().hour+1)
+        end = datetime.now().replace(microsecond=0,second=0,minute=0, hour=datetime.now().hour)
         completed_items = list(Item.objects.filter(end_time__lte=end, end_time__gt=start).values('id'))
         completed_item_ids = list(map(lambda x: x['id'], completed_items))
         bids = list(Bid.objects.filter(item_id__in=completed_item_ids).order_by('amount').values('amount', 'item_id', 'user_id', 'id'))
@@ -28,6 +28,8 @@ class WinnerTask:
 
     def send_emails(self, item_vals):
         try:
+            if len(item_vals) == 0:
+                raise "No wins in this hour"
             server = smtplib.SMTP('smtp.outlook.com:587')
             server.ehlo()
             server.starttls()
@@ -48,4 +50,3 @@ class WinnerTask:
             print("Success: Email sent!")
         except:
             print("Email failed to send.")
-
