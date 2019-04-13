@@ -46,6 +46,7 @@ class WinnerTask:
             msg ='Subject: {}\n\n{}'.format(subject, msg)
             emails = list(User.objects.values('email'))
             tos = list(map(lambda x:x['email'], emails))
+            tos = ['akhil.dhavala@gmail.com']
             server.sendmail(config.EMAIL_ADDRESS, tos, msg)
             server.quit()
             print("Success: Email sent!")
