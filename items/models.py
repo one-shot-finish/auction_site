@@ -11,6 +11,7 @@ class Item(models.Model):
     end_time = models.DateTimeField()
     base_amount = models.FloatField()
     winner = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    image_url = models.TextField()
 
     def __str__(self):
         return self.name

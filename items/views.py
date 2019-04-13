@@ -39,7 +39,7 @@ class ItemDetail(APIView):
             amount = item_vals[item['id']][0]
             user_id = item_vals[item['id']][1]
 
-            if item['end_time'] < Util.fetch_date(now):
+            if item['end_time'] < Util.fetch_date(now.replace(microsecond=0,second=0,minute=0)):
                 item['winner_name'] = User.objects.get(pk=item['winner_id']).full_name
                 item['status'] = 'Completed'
                 item['sold_amount'] = amount
