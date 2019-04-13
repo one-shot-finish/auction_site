@@ -29,7 +29,8 @@ class WinnerTask:
     def send_emails(self, item_vals):
         try:
             if len(item_vals) == 0:
-                raise "No wins in this hour"
+                print("No wins in this hour")
+                return
             server = smtplib.SMTP('smtp.outlook.com:587')
             server.ehlo()
             server.starttls()
