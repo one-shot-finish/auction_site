@@ -9,7 +9,7 @@ Django==2.2
 django-celery==3.2.2
 django_cron==0.5.1
 django-heroku==0.3.1
-djangorestframework==3.9.2
+djangorestframework==3.11.2
 GDAL==2.3.3
 gunicorn==19.9.0
 idna==2.8
