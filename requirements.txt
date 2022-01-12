@@ -14,7 +14,7 @@ GDAL==2.3.3
 gunicorn==19.9.0
 idna==2.8
 kombu==3.0.37
-pipenv==2018.11.26
+pipenv==2022.1.8
 psycopg2==2.8.1
 python-dateutil==2.8.0
 pytz==2019.1
